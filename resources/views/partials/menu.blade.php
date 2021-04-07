@@ -1,0 +1,48 @@
+@php
+    $is_users_menu = false;
+    $is_products_menu = false;
+    if(\Request::is('manage/users*') || \Request::is('manage/permissions*') || \Request::is('manage/roles*')){
+        $is_users_menu=true;
+    }
+
+@endphp
+<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <div class="sb-sidenav-menu-heading">Core</div>
+                <a class="nav-link" href="{{route('dashboard')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Dashboard
+                </a>
+
+                <div class="sb-sidenav-menu-heading">Users</div>
+                <a class="nav-link {{!$is_users_menu ? 'collapsed' :''}}" href="#" data-toggle="collapse" data-target="#users" aria-expanded="false" aria-controls="users">
+                    <div class="sb-nav-link-icon"><i class="fas fa-users-cog"></i></div>
+                    Users
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse {{ $is_users_menu ? 'show' : ''  }}" id="users" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        @can('list-user')
+                            <a class="nav-link" href="{{route('manage.users.index')}}">All Users</a>
+                        @endcan
+                        @can('list-role')
+                            <a class="nav-link" href="{{route('manage.roles.index')}}">Roles</a>
+                        @endcan
+                        @can('list-permission')
+                            <a class="nav-link" href="{{route('manage.permissions.index')}}">All Permissions</a>
+                        @endcan
+                    </nav>
+                </div>
+            </div>
+        </div>
+        @guest
+        @else
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                {{ Auth::user()->first_name }}
+            </div>
+        @endguest
+    </nav>
+</div>

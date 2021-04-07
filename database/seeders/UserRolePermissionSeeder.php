@@ -22,29 +22,40 @@ class UserRolePermissionSeeder extends Seeder
         /**
          * Basic permissions which in start seeding we will give to admin role users
          */
-        Permission::create(['name' => 'role-list']);
-        Permission::create(['name' => 'role-create']);
-        Permission::create(['name' => 'role-update']);
-        Permission::create(['name' => 'role-delete']);
+        Permission::create(['name' => 'list-role']);
+        Permission::create(['name' => 'create-role']);
+        Permission::create(['name' => 'update-role']);
+        Permission::create(['name' => 'delete-role']);
 
-        Permission::create(['name' => 'user-list']);
-        Permission::create(['name' => 'user-create']);
-        Permission::create(['name' => 'user-update']);
-        Permission::create(['name' => 'user-delete']);
+        Permission::create(['name' => 'list-user']);
+        Permission::create(['name' => 'create-user']);
+        Permission::create(['name' => 'update-user']);
+        Permission::create(['name' => 'delete-user']);
+
+        Permission::create(['name' => 'list-permission']);
+        Permission::create(['name' => 'create-permission']);
+        Permission::create(['name' => 'update-permission']);
+        Permission::create(['name' => 'delete-permission']);
 
 
         $role = Role::create(['name' => User::DEV_ADMIN_ROLE]);
         $role_admin = Role::create(['name' => User::ADMIN_ROLE]);
 
-        $role_admin->givePermissionTo('role-list');
-        $role_admin->givePermissionTo('role-create');
-        $role_admin->givePermissionTo('role-update');
-        $role_admin->givePermissionTo('role-delete');
 
-        $role_admin->givePermissionTo('user-list');
-        $role_admin->givePermissionTo('user-create');
-        $role_admin->givePermissionTo('user-update');
-        $role_admin->givePermissionTo('user-delete');
+        $role_admin->givePermissionTo('list-permission');
+        $role_admin->givePermissionTo('create-permission');
+        $role_admin->givePermissionTo('update-permission');
+        $role_admin->givePermissionTo('delete-permission');
+
+        $role_admin->givePermissionTo('list-role');
+        $role_admin->givePermissionTo('create-role');
+        $role_admin->givePermissionTo('update-role');
+        $role_admin->givePermissionTo('delete-role');
+
+        $role_admin->givePermissionTo('list-user');
+        $role_admin->givePermissionTo('create-user');
+        $role_admin->givePermissionTo('update-user');
+        $role_admin->givePermissionTo('delete-user');
 
         $user = \App\Models\User::factory()->create([
             'name' => 'Dev Admin',
