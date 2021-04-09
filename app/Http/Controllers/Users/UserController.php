@@ -3,28 +3,32 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
+use App\Imports\UserImport;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         try {
             if(responseInJson($request)) {
                 $table_data = [];
-                foreach(User::all() as $data) {
+                if(auth()->user()->hasRole(User::DEV_ADMIN_ROLE)) {
+                    $users = User::all();
+                } else {
+                    $users = User::whereHas('roles', function ($query) {
+                        $query->where('name','!=', User::DEV_ADMIN_ROLE);
+                    })->get();
+                }
+                foreach($users as $data) {
                     $table_data[] = [
                         'id'            => $data->id,
                         'name'      => $data->name,
@@ -59,11 +63,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
 
@@ -78,12 +77,6 @@ class UserController extends Controller
             ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreUser $request)
     {
         try {
@@ -100,23 +93,11 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param User $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
         $roles = Role::all();
@@ -129,18 +110,18 @@ class UserController extends Controller
             ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateUser $request
-     * @param User $user
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateUser $request, User $user)
     {
         try {
             $input = $request->all();
-            $user->update($input);
+            $arr = [
+                'name'=>$input['name'],
+                'email' => $input['email'],
+            ];
+            if(!empty($input['password'])) {
+                $arr['password'] = bcrypt($input['password']);
+            }
+            $user->update($arr);
             if(!empty($input['role'])) {
                 $user->roles()->sync($input['role']);
             } else {
@@ -154,12 +135,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param User $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
         try {
@@ -185,9 +160,9 @@ class UserController extends Controller
         }
         if($request->isMethod('POST')) {
             try {
-                Excel::import(new UsersImport, $request->file('excel_file'));
+                Excel::import(new UserImport, $request->file('excel_file'));
 
-                Session::flash('message', 'Sellers imported.');
+                Session::flash('message', 'Users imported.');
                 Session::flash('status', 'alert-success');
                 return redirect()->route('manage.users.index');
             } catch (\Exception $exception) {

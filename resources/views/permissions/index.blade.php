@@ -1,6 +1,12 @@
 @extends('layouts.main')
 @section('content')
-    <h1 class="mt-4">Permissions</h1>
+    <div class="float-left"><h1 class="mt-4">Permissions</h1></div>
+    <div class="float-right">
+        @can('create-role')
+            <a class="mt-4 btn btn-primary" href="{{route('manage.permissions.create')}}">Add New</a>
+        @endcan
+    </div>
+    <div class="clearfix"></div>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
         <li class="breadcrumb-item active">Permissions</li>
@@ -17,7 +23,7 @@
                     <thead>
                     <tr>
                         <th scope="col">id</th>
-                        <th scope="col">Page Key</th>
+                        <th scope="col">Name</th>
                         <th scope="col" class="text-right">Action</th>
                     </tr>
                     </thead>
@@ -43,8 +49,8 @@
                         name: 'id'
                     },
                     {
-                        data: 'page_key',
-                        name: 'page_key'
+                        data: 'name',
+                        name: 'name'
                     },
                     {
                         data: 'action',

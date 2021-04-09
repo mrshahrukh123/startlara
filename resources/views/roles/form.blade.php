@@ -4,11 +4,11 @@
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{route('manage.roles.index')}}">Roles</a></li>
-        <li class="breadcrumb-item active">Create Roles</li>
+        <li class="breadcrumb-item active">{{$newObj->id > 0 ? 'Edit' : 'Create'}} Roles</li>
     </ol>
     @include('partials.message')
     <div class="card shadow-lg border-0 rounded-lg mt-5">
-        <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Role</h3></div>
+        <div class="card-header"><h3 class="text-center font-weight-light my-4">{{$newObj->id > 0 ? 'Edit' : 'Create'}} Role</h3></div>
         <div class="card-body">
             {!! Form::model($newObj,
                     ['method'=>($newObj->id > 0) ? 'PATCH' : 'POST',
@@ -29,7 +29,7 @@
                 @forelse ($permissions as $permission)
                     <div class="custom-control custom-checkbox custom-control">
                         <input name="permission[]" type="checkbox" class="custom-control-input" id="permission-{{$permission->id}}" value="{{$permission->id}}" {{ in_array($permission->id,$checked) ? "checked" : "" }}>
-                        <label class="custom-control-label" for="permission-{{$permission->id}}">{{$permission->page_key}}</label>
+                        <label class="custom-control-label" for="permission-{{$permission->id}}">{{$permission->name}}</label>
                     </div>
                 @empty
                     <span>No Permission</span>

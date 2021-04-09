@@ -2,7 +2,7 @@
 @section('content')
     <div class="float-left"><h1 class="mt-4">Roles</h1></div>
     <div class="float-right">
-        @can('has-authority-to','create_role')
+        @can('create-role')
             <a class="mt-4 btn btn-primary" href="{{route('manage.roles.create')}}">Add New</a>
         @endcan
     </div>

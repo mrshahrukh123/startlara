@@ -4,31 +4,22 @@
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{route('manage.users.index')}}">Users</a></li>
-        <li class="breadcrumb-item active">Create User</li>
+        <li class="breadcrumb-item active">{{$newObj->id > 0 ? 'Edit' : 'Create'}} Users</li>
     </ol>
     @include('partials.message')
     <div class="card shadow-lg border-0 rounded-lg mt-5">
-        <div class="card-header"><h3 class="text-center font-weight-light my-4">Create User</h3></div>
+        <div class="card-header"><h3 class="text-center font-weight-light my-4">{{$newObj->id > 0 ? 'Edit' : 'Create'}} User</h3></div>
         <div class="card-body">
             {!! Form::model($newObj,
                     ['method'=>($newObj->id > 0) ? 'PATCH' : 'POST',
                     'route'=>($newObj->id > 0) ? ['manage.users.update',$newObj] : ['manage.users.store'],
                     'files'=>true]) !!}
             <div class="form-group">
-                {!!Form::label('first_name', 'First Name') !!}
-                {!!Form::text('first_name',null ,['class'=> 'form-control' . ($errors->has('first_name') ? ' is-invalid' : '')]) !!}
-                @if ($errors->has('first_name'))
+                {!!Form::label('name', 'Name') !!}
+                {!!Form::text('name',null ,['class'=> 'form-control' . ($errors->has('name') ? ' is-invalid' : '')]) !!}
+                @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('first_name') }}</strong>
-                </span>
-                @endif
-            </div>
-            <div class="form-group">
-                {!!Form::label('last_name', 'Last Name') !!}
-                {!!Form::text('last_name',null ,['class'=> 'form-control' . ($errors->has('last_name') ? ' is-invalid' : '')]) !!}
-                @if ($errors->has('last_name'))
-                    <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('last_name') }}</strong>
+                    <strong>{{ $errors->first('name') }}</strong>
                 </span>
                 @endif
             </div>
@@ -38,15 +29,6 @@
                 @if ($errors->has('email'))
                     <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('email') }}</strong>
-                </span>
-                @endif
-            </div>
-            <div class="form-group">
-                {!!Form::label('phone_number', 'Phone Number') !!}
-                {!!Form::text('phone_number',null ,['class'=> 'form-control' . ($errors->has('phone_number') ? ' is-invalid' : '')]) !!}
-                @if ($errors->has('phone_number'))
-                    <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('phone_number') }}</strong>
                 </span>
                 @endif
             </div>
@@ -78,15 +60,6 @@
                 @empty
                     <span>No Role</span>
                 @endforelse
-            </div>
-            <div class="form-group">
-                {!!Form::label('dob', 'Date of Birth') !!}
-                {!!Form::text('dob',null,['class'=> 'form-control' . ($errors->has('dob') ? ' is-invalid' : '')]) !!}
-                @if ($errors->has('dob'))
-                    <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('dob') }}</strong>
-                </span>
-                @endif
             </div>
             <div class="mb-20">
                 {!!Form::submit('Save', ['class'=>'btn btn-success']) !!}

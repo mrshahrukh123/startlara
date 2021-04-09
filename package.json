@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "font-awesome": "^4.7.0",
+        "gijgo": "^1.9.13",
         "select2": "*"
     }
 }

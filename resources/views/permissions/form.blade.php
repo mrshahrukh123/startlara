@@ -16,11 +16,11 @@
                     'files'=>true]) !!}
 
             <div class="mb-20">
-                {!!Form::label('page_key', 'Name',['class'=>'control-label pl-13']) !!}
-                {!!Form::text('page_key',null ,['class'=> 'form-control' . ($errors->has('page_key') ? ' is-invalid' : '')]) !!}
-                @if ($errors->has('page_key'))
+                {!!Form::label('name', 'Name',['class'=>'control-label pl-13']) !!}
+                {!!Form::text('name',null ,['class'=> 'form-control' . ($errors->has('name') ? ' is-invalid' : '')]) !!}
+                @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('page_key') }}</strong>
+                    <strong>{{ $errors->first('name') }}</strong>
                 </span>
                 @endif
             </div>
