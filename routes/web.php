@@ -21,8 +21,11 @@ Auth::routes(['verify' => true]);
 
 Route::middleware(['auth','verified'])
     ->group(function (){
-        Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
+        Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
             ->name('dashboard');
+        Route::match(['GET','POST'],'settings',[\App\Http\Controllers\SettingController::class,'settings'])
+            ->name('settings')
+            ->middleware(['can:manage-settings']);
         Route::prefix('manage')
             ->name('manage.')
             ->group(function(){

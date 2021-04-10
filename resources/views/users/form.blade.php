@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Users')
 @section('content')
     <h1 class="mt-4">Users</h1>
     <ol class="breadcrumb mb-4">

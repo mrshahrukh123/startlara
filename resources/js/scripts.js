@@ -31,6 +31,17 @@
      */
     $('.dataTables_length').addClass('dd-holder dd-holder-xs');
     /**
+     * delete confirmation
+     *
+     *
+     */
+    $('.list-datatables').on('click','.confirm_delete', function(e) {
+        e.preventDefault();
+        if(confirm('Are you sure you want to delete ?')) {
+            $("#delete_form_"+$(this).data("id")).submit();
+        }
+    });
+    /**
      * enable tooltip
      *
      */

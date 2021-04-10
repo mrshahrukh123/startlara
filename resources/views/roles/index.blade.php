@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Roles')
 @section('content')
     <div class="float-left"><h1 class="mt-4">Roles</h1></div>
     <div class="float-right">

@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Permissions')
 @section('content')
     <div class="float-left"><h1 class="mt-4">Permissions</h1></div>
     <div class="float-right">
