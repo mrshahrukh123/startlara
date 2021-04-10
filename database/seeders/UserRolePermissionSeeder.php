@@ -37,6 +37,8 @@ class UserRolePermissionSeeder extends Seeder
         Permission::create(['name' => 'update-permission']);
         Permission::create(['name' => 'delete-permission']);
 
+        Permission::create(['name' => 'manage-settings']);
+
 
         $role = Role::create(['name' => User::DEV_ADMIN_ROLE]);
         $role_admin = Role::create(['name' => User::ADMIN_ROLE]);
@@ -51,6 +53,8 @@ class UserRolePermissionSeeder extends Seeder
         $role_admin->givePermissionTo('create-user');
         $role_admin->givePermissionTo('update-user');
         $role_admin->givePermissionTo('delete-user');
+
+        $role_admin->givePermissionTo('manage-settings');
 
         $user = \App\Models\User::factory()->create([
             'name' => 'Dev Admin',
