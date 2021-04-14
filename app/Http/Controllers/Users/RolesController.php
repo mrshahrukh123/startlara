@@ -64,7 +64,12 @@ class RolesController extends Controller
     {
 
         $newObj = new Role();
-        $permissions = Permission::all();
+        if(auth()->user()->hasRole(User::DEV_ADMIN_ROLE)) {
+            $permissions = Permission::all();
+        } else {
+            $permissions = auth()->user()->getAllPermissions();
+        }
+
         $checked_roles = [];
         return view('roles.form')
             ->with([
@@ -97,7 +102,11 @@ class RolesController extends Controller
 
     public function edit(Role $role)
     {
-        $permissions = Permission::all();
+        if(auth()->user()->hasRole(User::DEV_ADMIN_ROLE)) {
+            $permissions = Permission::all();
+        } else {
+            $permissions = auth()->user()->getAllPermissions();
+        }
         $checked_roles = $role->getPermissionIdsAttribute();
         return view('roles.form')
             ->with([
