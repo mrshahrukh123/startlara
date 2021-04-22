@@ -1,4 +1,4 @@
-@can('has-authority-to',$edit_permission)
+@can($edit_permission)
     <a data-toggle="tooltip" data-placement="top" title="{{ 'Edit '.$tool_tip_title }}" href="{{$edit_route}}">
         <i class="fas fa-pencil-alt"></i>
     </a>
@@ -8,7 +8,7 @@
         <i class="fas fa-list-ul"></i>
     </a>
 @endif
-@can('has-authority-to',$delete_permission)
+@can($delete_permission)
 <a class="confirm_delete" data-toggle="tooltip" data-placement="top" title="{{ 'Delete '.$tool_tip_title }}" data-id="{{$id}}" href="{{$delete_route}}">
 	<i class="fas fa-trash"></i>
 </a>

@@ -70,11 +70,20 @@ class RolesController extends Controller
             $permissions = auth()->user()->getAllPermissions();
         }
 
+        $permission_title = '';
+        $permission_arr = array();
+        foreach($permissions as $permission) {
+            $exploded = explode('-',$permission->name);
+            if($permission_title != $exploded[1]) {
+                $permission_title = $exploded[1];
+            }
+            $permission_arr[$permission_title][] = $permission;
+        }
         $checked_roles = [];
         return view('roles.form')
             ->with([
                 'newObj'=>$newObj,
-                'permissions'=>$permissions,
+                'permissions'=>$permission_arr,
                 'checked'  =>  $checked_roles,
             ]);
     }
@@ -107,11 +116,20 @@ class RolesController extends Controller
         } else {
             $permissions = auth()->user()->getAllPermissions();
         }
+        $permission_title = '';
+        $permission_arr = array();
+        foreach($permissions as $permission) {
+            $exploded = explode('-',$permission->name);
+            if($permission_title != $exploded[1]) {
+                $permission_title = $exploded[1];
+            }
+            $permission_arr[$permission_title][] = $permission;
+        }
         $checked_roles = $role->getPermissionIdsAttribute();
         return view('roles.form')
             ->with([
                 'newObj'=>$role,
-                'permissions'=>$permissions,
+                'permissions'=>$permission_arr,
                 'checked'  =>  $checked_roles,
             ]);
     }

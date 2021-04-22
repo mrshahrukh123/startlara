@@ -27,14 +27,27 @@
             </div>
             <div class="mb-20">
                 {!!Form::label('permission', 'Permissions', ['class'=>'custom-input mb-10']) !!}
-                @forelse ($permissions as $permission)
-                    <div class="custom-control custom-checkbox custom-control">
-                        <input name="permission[]" type="checkbox" class="custom-control-input" id="permission-{{$permission->id}}" value="{{$permission->id}}" {{ in_array($permission->id,$checked) ? "checked" : "" }}>
-                        <label class="custom-control-label" for="permission-{{$permission->id}}">{{$permission->name}}</label>
+                <div class="row mb-3">
+                    @forelse ($permissions as $title => $permission_section)
+                        @if($loop->index!=0 && $loop->index%4==0)
+                </div>
+                <div class="row mb-3">
+                    @endif
+                    <div class="col-3">
+                        <h4>{{ucfirst($title)}}</h4>
+                        @foreach($permission_section as $permission)
+                            <div class="custom-control custom-checkbox custom-control">
+                                <input name="permission[]" type="checkbox" class="custom-control-input" id="permission-{{$permission->id}}" value="{{$permission->id}}" {{ in_array($permission->id,$checked) ? "checked" : "" }}>
+                                <label class="custom-control-label" for="permission-{{$permission->id}}">{{$permission->name}}</label>
+                            </div>
+                        @endforeach
                     </div>
-                @empty
-                    <span>No Permission</span>
-                @endforelse
+
+
+                    @empty
+                        <span>No Permission</span>
+                    @endforelse
+                </div>
             </div>
             <div class="mb-20">
                 {!!Form::submit('Save', ['class'=>'btn btn-success']) !!}
