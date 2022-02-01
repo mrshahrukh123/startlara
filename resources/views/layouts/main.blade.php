@@ -34,9 +34,6 @@
                        aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{route('manage.users.edit',['user'=>auth()->user()])}}">Profile</a>
-                        @can('manage-settings')
-                            <a class="dropdown-item" href="{{route('settings')}}">Settings</a>
-                        @endcan
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">Logout</a>

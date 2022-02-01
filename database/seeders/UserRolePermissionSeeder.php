@@ -19,42 +19,41 @@ class UserRolePermissionSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        /**
-         * Basic permissions which in start seeding we will give to admin role users
-         */
-        Permission::create(['name' => 'list-role']);
-        Permission::create(['name' => 'create-role']);
-        Permission::create(['name' => 'update-role']);
-        Permission::create(['name' => 'delete-role']);
+        $secure_permission_arr = array(
+            'list-permission',
+            'create-permission',
+            'update-permission',
+            'delete-permission',
+        );
 
-        Permission::create(['name' => 'list-user']);
-        Permission::create(['name' => 'create-user']);
-        Permission::create(['name' => 'update-user']);
-        Permission::create(['name' => 'delete-user']);
+        $permissions_arr = array(
+            'list-role',
+            'create-role',
+            'update-role',
+            'delete-role',
+            'list-user',
+            'create-user',
+            'update-user',
+            'delete-user',
+            'manage-settings',
+        );
 
-        Permission::create(['name' => 'list-permission']);
-        Permission::create(['name' => 'create-permission']);
-        Permission::create(['name' => 'update-permission']);
-        Permission::create(['name' => 'delete-permission']);
+        $dev_admin_permissions = array_merge($permissions_arr, $secure_permission_arr);
 
-        Permission::create(['name' => 'manage-settings']);
+        $admin_permission_arr = array_merge($permissions_arr);
 
+        foreach ($dev_admin_permissions as $permission_name) {
+            Permission::create(['name' => $permission_name]);
+        }
 
         $role = Role::create(['name' => User::DEV_ADMIN_ROLE]);
         $role_admin = Role::create(['name' => User::ADMIN_ROLE]);
 
-
-        $role_admin->givePermissionTo('list-role');
-        $role_admin->givePermissionTo('create-role');
-        $role_admin->givePermissionTo('update-role');
-        $role_admin->givePermissionTo('delete-role');
-
-        $role_admin->givePermissionTo('list-user');
-        $role_admin->givePermissionTo('create-user');
-        $role_admin->givePermissionTo('update-user');
-        $role_admin->givePermissionTo('delete-user');
-
-        $role_admin->givePermissionTo('manage-settings');
+        foreach ($admin_permission_arr as $permission_name) {
+            if ($permission_name) {
+                $role_admin->givePermissionTo($permission_name);
+            }
+        }
 
         $user = \App\Models\User::factory()->create([
             'name' => 'Dev Admin',
